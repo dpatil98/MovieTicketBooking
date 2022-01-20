@@ -1,0 +1,148 @@
+
+.allmovies-container {
+
+    /* display: flex;
+    justify-content:start;
+    flex-wrap: wrap;
+    flex-direction: row; */
+    /* background-color: blue; */
+    /* padding-left: 100px;  */
+
+    display: grid;
+    /* oneline solution to multi-mediaqueries */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+   /* grid-gap: 1rem; */
+ 
+}
+
+/*
+ Screen larger than 600px? 2 column 
+@media (min-width: 600px) {
+    .allmovies-container { grid-template-columns: repeat(2, 1fr); }
+  }
+  
+   Screen larger than 900px? 4 columns 
+@media (min-width: 900px) {
+    .allmovies-container{ grid-template-columns: repeat(4, 1fr); }
+  }
+
+
+  */
+
+  /* headings for sections , overrided from movieDetails.css */
+
+.section-heading{ 
+  
+  text-align: start;
+  color: white;
+  
+}
+
+
+/* Filterr section --------------------- */
+.filter-container
+{
+    color: white;
+    background-color: rgb(24, 24, 22); 
+    /* margin-left: 10%; */
+    border-radius: 10px;
+    display: flex;
+    /* flex-wrap: wrap; */
+}
+
+
+.filter-section{
+
+  /* background-color: aqua; */
+  min-width: 200px;
+
+}
+
+
+/* All childs eg: Language ,Formate, Gerne */
+.filter-section div
+{
+    
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    
+    min-width: 200px;
+}
+
+/* filter type rg lang, format etc*/
+.filter-section h5{
+
+  margin: 10px; 
+  padding: 10px;
+  width: max-content;
+
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 5px;
+
+  background-color: rgb(44, 44, 51);
+  cursor: pointer;
+
+}
+
+/* items inside each filter type */
+.filter-section p{
+
+  /* background-color: rgb(158, 52, 3); */
+  
+  margin:  10px;
+  padding: 8px;
+
+  font-size: 15px;
+  border:2px rgba(196, 252, 85, 0.371) solid;
+  border-radius: 10px;
+  /* color: rgb(140, 140, 140); */
+  color:rgba(196, 252, 85, 0.371) ;
+  cursor: pointer;
+  
+  animation: visi 0.7s forwards 1 ease-in-out ;
+  
+  /* display: none; */
+}
+
+@keyframes visi {
+  from{
+        opacity: 0;
+        transform: scale(1.2)  translateY(-20px) skewX(-10deg);
+       
+        
+      }
+  to{
+      
+      opacity: 1;
+      transform: scale(1) translateY(0px) SkewX(0deg);
+      
+     
+    }
+}
+
+
+.filter-section p:hover{
+
+  background-color: rgba(72, 151, 15, 0.59);
+  color: white;
+
+  
+}
+
+.filter-section p:active{
+
+  background-color: rgba(18, 111, 18, 0.59);
+  color: white;
+  padding: 7px;
+  /* border:1px rgb(106, 106, 106) solid; */
+}
+
+
+
+
+/* Filterr section Ends --------------------- */

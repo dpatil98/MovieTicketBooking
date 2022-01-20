@@ -1,0 +1,28 @@
+
+
+.filter-icon Button{
+
+    padding: 17px;
+    background-color: royalblue;
+    color: white;
+    border-radius: 50%;
+
+    position: fixed;
+
+    top: 90vh; 
+    left: 77vw;
+
+    z-index: 1;
+
+
+}
+
+
+.filter-body{
+
+    background-color: rgb(97, 97, 94);
+    height: 100vh;
+    color: white;
+    border: 2px rgb(0, 0, 0) solid;
+
+}
