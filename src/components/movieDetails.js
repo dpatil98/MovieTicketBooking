@@ -10,8 +10,9 @@ import "slick-carousel/slick/slick-theme.css";
 import * as React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
-// import Container from '@mui/material/Container';
 
+// import Container from '@mui/material/Container';
+import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 
 export function MovieDetails({movies})
 {
@@ -70,7 +71,6 @@ export function MovieDetails({movies})
 
         }
         
-        
 
         var settings = {
           dots: true,
@@ -88,6 +88,10 @@ export function MovieDetails({movies})
           slidesToScroll:  AcordingToScreen('trailer')
         };
 
+     const handleBookclick=()=>{
+          console.log("Booking");
+     }
+
    return(
 
         
@@ -102,10 +106,10 @@ export function MovieDetails({movies})
                </div>
                <div className='movieDetail-details'>
                     <h5>{selectedMovie[0].name}</h5>
-                    <p><b>Gerne : </b>Comady, Horror, Superhero, Comady, Horror, Superhero</p>
+                    <p>Comady / Horror </p>
                     <p>R-Rated</p>
                     <p>{selectedMovie[0].rating}</p>
-                    <button className='book-btn'>Book Now</button>
+                    <button onClick={()=> handleBookclick() } className='book-btn'><LocalActivityIcon fontSize='inherit' /> Book Now</button>
                </div>
           </div>
           <div className='movieSubDetails-container'>

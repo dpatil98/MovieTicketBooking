@@ -47,11 +47,12 @@
 
    
     font-size: min(2.5vh,24px);
-   
+   font-weight: 300;
 }
 
 /* right side containg name , rating gerner etc */
 .movieDetail-details > *{
+    
     text-align: start;
     margin: 10% 0;
 }
@@ -59,17 +60,33 @@
 .book-btn{
     outline: none;
 
-    border: 1px blue solid;
+    border: 2px rgb(123, 123, 255) solid;
     border-radius: 10px;
 
-    padding: 10px;
+    padding: min(4vw , 10px) ;
+    margin: 0;
+ 
 
-    background-color: cornflowerblue;
+    background-color: rgb(61, 61, 61);
     color: white;
 
+    font-family: cursive;
+    font-size: min(16px,3.8vw);
     
+    cursor: pointer;
+    
+}
+
+
+.book-btn:hover{
+
+    background-color: rgba(0, 255, 42, 0.575);
+    color: white;
+    cursor: pointer;
    
 }
+
+
 
 /* headings for contents eg cast , movieOverview */
 .section-heading{ 
@@ -104,7 +121,9 @@
     word-spacing: 4px;
     letter-spacing: 1px;
     margin-left:10%;
-
+    font-weight: 100;
+    font-size: 15px;
+    color: rgb(192, 192, 192);
 }
 
 /* Movie Overview Section ends--------------------------------------------- */
