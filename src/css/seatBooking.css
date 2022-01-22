@@ -1,0 +1,34 @@
+
+/* .theater-container{
+
+    display: flex;
+    gap: 10px;
+
+
+} */
+
+.row{
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.notbooked,.booked{
+
+    background-color: rgb(116, 133, 235);
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    border-radius: 7px  7px 0 0;
+}
+
+.empty{
+
+    background-color: black;
+    width: 20px;
+    height: 20px;
+}
+
+.booked{
+    background-color: rgb(177, 32, 63);
+}

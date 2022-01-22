@@ -1,7 +1,7 @@
 
 import '../css/movieDetails.css';
 
-import { useParams } from "react-router-dom";
+import { useParams , useHistory } from "react-router-dom";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -14,12 +14,13 @@ import { useEffect } from 'react';
 // import Container from '@mui/material/Container';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 
+
 export function MovieDetails({movies})
 {
     // console.log("Details",trailer ,poster,name,rating,summary,id);
      const { id } = useParams();
-
      const [width, setWidth ] = useState(window.innerWidth);
+     const history = useHistory();
 
      //to change the width 
      useEffect(() => {
@@ -89,6 +90,8 @@ export function MovieDetails({movies})
         };
 
      const handleBookclick=()=>{
+
+          history.push('/BookingShow/'+id)
           console.log("Booking");
      }
 

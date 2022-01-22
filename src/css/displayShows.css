@@ -1,0 +1,185 @@
+
+.booking-movie-details{
+
+    color: white;
+}
+
+.booking-movie-Subdetails{
+    
+    display: inline-flex;
+    gap: 10px;
+    margin-top: 5px;
+    font-size: 13px;
+    color: azure;
+}
+
+.booking-movie-filter{
+
+    color: white;
+    margin-top: 20px;
+    border: 2px white solid;
+    padding: 20px 10px;
+
+}
+
+/* All theater and show sections container*/
+.booking-shows-container{
+    background-color: rgb(38, 38, 35);
+
+}
+
+/* one theater and show container*/
+.booking-theaterNshows{
+    
+    /* min-height: 200px; */
+    display: flex;
+    /* justify-content: space-between; */
+    /* flex-wrap: wrap; */
+    padding-left: 5%;
+
+    padding-top:50px;
+    padding-bottom: 50px;
+    
+}
+
+
+/* theater name container*/
+.booking-theater{
+
+    /* background-color: tomato; */
+    max-width:400px;
+    min-width:120px;
+    width: 100%;
+    height: auto;
+
+}
+
+.theater-name{
+
+    display: flex;
+    gap: 10px;   
+    
+    color: white;
+}
+
+/* theater name */
+.theater-name h3{
+    
+    margin: 5px 0;
+ 
+
+    font-weight: 200;
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+
+/* facility details eg F&B M-ticket etc */
+.theater-availbl-facilities{
+
+    
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+
+    margin-top: 10px;
+    color: rgb(207, 248, 140);
+    
+}
+
+.booking-shows {
+
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+
+}
+
+
+/* movie shows */
+.booking-shows button{
+
+    outline: none;
+
+
+    margin:10px;
+    padding: 10px;   
+
+    background: none;
+    color: orange;
+
+    border-radius: 10px;
+    border: 1px solid orange;
+
+    position: relative;
+}
+
+/* cost and info abt show display on hover only*/
+.booking-show-info{
+
+    width: 250px;
+    height: 70px;
+    position: absolute;
+    background-color: rgb(67, 67, 67);
+
+    border-radius: 10px;
+    /* display: none; */
+    opacity: 0;
+
+    margin-bottom: 70px;
+    margin-right:80px;
+
+    pointer-events: none;
+
+    display: flex;
+    gap:10px;
+    justify-content: space-evenly;
+    align-items: center;
+    line-height: 25px;
+
+    color: white;
+
+}
+
+/* each sofa gold silver  */
+.booking-show-info p{
+
+   color: greenyellow;
+   font-weight: 200;
+}
+
+/* each  cost  */
+.booking-show-info h4{
+
+
+   font-weight: 300;
+    
+  
+ 
+ }
+
+.show-btn:hover .booking-show-info{
+
+  
+    /* display: block; */
+    opacity: 1;
+    transition: 0.5s all linear;
+}
+
+
+/* bottoom arrow for .booking-show-info */
+.tri{
+
+    /* background-color: aqua; */
+    /* width: 20px;
+    height: 20px; */
+    position: absolute;
+    margin-top: 75px;
+    margin-left: 25px;
+
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    
+    border-top: 10px solid rgb(67, 67, 67);
+
+}

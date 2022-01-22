@@ -26,8 +26,10 @@ import MenuItem from '@mui/material/MenuItem';
 
 
 
-import { MovieDetails } from './components/movieDetails';
-import { Allmovies } from './components/allMovies';
+import { MovieDetails } from './components/movieDetails.js';
+import { Allmovies } from './components/allMovies.js';
+import { SelectingShow } from './components/displayShows.js';
+import {ShowScreen} from './components/seatBooking.js';
 
 
 
@@ -166,6 +168,12 @@ function App() {
             </Route>
             <Route exact path="/allMovies">
               < Allmovies movies={movies}/>
+            </Route>
+            <Route exact path="/BookingShow/:id">
+              < SelectingShow movies={movies}/>
+            </Route>
+            <Route exact path="/bookingScreen">
+              < ShowScreen movies={movies}/>
             </Route>
             <Route Path="**">
                     404 NOT FOUND

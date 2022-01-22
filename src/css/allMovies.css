@@ -98,10 +98,10 @@
   padding: 8px;
 
   font-size: 15px;
-  border:2px rgba(196, 252, 85, 0.371) solid;
+  border:2px rgba(196, 252, 85, 0.933) solid;
   border-radius: 10px;
   /* color: rgb(140, 140, 140); */
-  color:rgba(196, 252, 85, 0.371) ;
+  color:rgba(196, 252, 85, 0.679) ;
   cursor: pointer;
   
   animation: visi 0.7s forwards 1 ease-in-out ;
