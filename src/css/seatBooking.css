@@ -1,34 +1,124 @@
 
-/* .theater-container{
+.theater-container{
 
-    display: flex;
-    gap: 10px;
-
-
-} */
-
-.row{
-    display: flex;
-    gap: 10px;
-    margin: 10px 0;
+    align-items: center;
+    /* background-color: burlywood; */
+    
 }
 
-.notbooked,.booked{
+.seat-info{
+    font-size: 14px;
+    color: rgb(143, 140, 140);
+}
 
-    background-color: rgb(116, 133, 235);
+.seats-container{
+
+    /* background-color: cadetblue; */
+   
+ 
+    overflow-x: auto;
+
+
+}
+
+.row ,.seat-info,.seat-info >div{
+    display: flex;
+    gap: 7px;
+    margin: 10px 0;
+   
+
+    /* background-color: brown; */ 
+    
+}
+
+
+
+@media only screen and (min-width: 768px) {
+    
+    .row{
+         justify-content: center;
+    }
+}
+
+.row-name{
+
+    
+    min-width: 20px;
+    min-height: 20px;
+    color: rgba(128, 128, 128, 0.33);
+}
+
+.notbooked,.booked,.empty,.selected-seat {
+
+    
+    /* width: 15px;
+    height: 15px; */
+
     width: 20px;
     height: 20px;
+
+    min-width: 15px;
+    min-height: 15px;
     text-align: center;
-    border-radius: 7px  7px 0 0;
+    border-radius: 2px;
+    font-size: 10px;
+    color: rgb(172, 171, 171);
+}
+
+
+.notbooked{
+
+    background-color: rgba(79, 79, 79, 0.857);
+   
+   
+    cursor: pointer;
 }
 
 .empty{
 
-    background-color: black;
-    width: 20px;
-    height: 20px;
+    /* background-color: rgba(0, 0, 0, 0.213); */
+    background-color: none;
 }
 
 .booked{
-    background-color: rgb(177, 32, 63);
+    background-color: rgb(214, 147, 0);
+    color: black;
+    cursor: not-allowed;
+}
+
+.selected-seat{
+
+    background-color: rgba(213, 119, 68, 0.857);
+    cursor: pointer;
+}
+
+.seats-section{
+
+    margin: 10px 0;
+    color: gray;
+    /* background-color: chocolate; */
+}
+
+.show-screen{
+
+    margin-top: 30px;
+     font-size: 14px;
+    text-align: center;
+  
+}
+
+.screen{
+
+    margin: 5px auto;
+    width: 250px;
+    height: 5px;
+
+    background-color: turquoise;
+   
+    
+    border-radius: 5px;
+    
+    box-shadow: 0 -12px 20px  rgb(84, 141, 155);
+
+
 }
