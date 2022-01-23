@@ -1,5 +1,7 @@
 
+import React, { useState } from 'react';
 import '../css/seatBooking.css';
+
 
 
 const theater={
@@ -11,6 +13,7 @@ const theater={
                         "totalSections":3,
                         "rows":[{
                                     "sectionStarts":"Balcony-Rs. 100.00",
+                                    "cost":"100",
                                 },
                                 {
                                     
@@ -38,6 +41,7 @@ const theater={
                                 },
                                 {
                                     "sectionStarts":"Reserved-Rs. 80.00",
+                                    "cost":"80",
                                 },
                                 {   
                                     
@@ -351,7 +355,8 @@ const theater={
                                     "23":"notbooked" , 
                                 },
                                 {
-                                    "sectionStarts":"Balcony-Rs. 100.00",
+                                    "sectionStarts":"Balcony-Rs. 70.00",
+                                    "cost":"70",
                                 },
                                 {   
                                     
@@ -433,14 +438,19 @@ const theater={
         };
 
 
-        
+//    let totalCost=0;     
 
-
-
-export function ShowScreen(movies)
+export function ShowScreen(movies)  
 {   
-   
+  
+    
+    
+      
+    const [SeatSelection ,setSeatSelection] = useState({0:true,});
+    const [SelectedSeats ,setSelectedSeats] = useState(0);
+    const [totalCost ,setTotalCost] = useState(0);
 
+    console.log("State" , SeatSelection);
     // const sd = () =>{
     //     let sds=[];
     //     console.log("sd")
@@ -456,11 +466,36 @@ export function ShowScreen(movies)
     //     }
     //     return sds;
     // }
+    
+    const handleSelect=(SeatKey,cost)=>{
+        
+        // console.log( SeatSelection[`${SeatKey}`] );
+        setSeatSelection( {...SeatSelection,  [SeatKey]:(!SeatSelection[`${SeatKey}`]) ? true : false } );
+        
+        if(!SeatSelection[`${SeatKey}`])
+        {
+         setTotalCost(totalCost+parseInt(cost.id) ) ;
+         setSelectedSeats(SelectedSeats+1) ;
+        
+        }
+        else
+        { 
+            setTotalCost(totalCost-parseInt(cost.id) )  ;
+            setSelectedSeats(SelectedSeats-1) ;
+        
+        };
+        
+        // console.log("Seats",SelectedSeats);
+        
+    }
+
+    // console.log("cost",totalCost);
 
     const ArrangeSeats = () =>{
+
         let EachRow=[];
         let RowName=64; //'A'-'Z' starts from 65 ..64 bcus first row is section name
-
+        let Cost=null; //cost will vary per section
 
         let firstLoop=theater.S1.totalrows+theater.S1.totalSections;
 
@@ -470,18 +505,19 @@ export function ShowScreen(movies)
             EachRow.push([]);
             let SeatNo=0; //reset for every row
 
+
          try {
              
           
             for(let j=0;j<=theater.S1.SeatsinRow;j++)
             {
-                if(theater.S1.rows[i]['emptyrow'])
+                if(theater.S1.rows[i]['emptyrow']) //to check if its emprt space 
                 {
                     j=theater.S1.SeatsinRow;
                     RowName--;
                     
                 }
-                if(j===0)
+                if(j===0)//to give row name like A, B, C 
                 {
                     EachRow[i][j] = <div className='row-name' >{String.fromCharCode(RowName)}</div> ;
                     continue;
@@ -489,7 +525,10 @@ export function ShowScreen(movies)
 
                 if(theater.S1.rows[i]['sectionStarts'])
                 {
+                    
                     EachRow[i]= <div className='seats-section' >{theater.S1.rows[i]['sectionStarts']}</div>
+                   
+                    Cost=theater.S1.rows[i]['cost']; //cost per seat for this section
                     
                     j=theater.S1.SeatsinRow;
                     RowName=64; //reseting row name for each section
@@ -498,9 +537,13 @@ export function ShowScreen(movies)
                 
                if( theater.S1.rows[i][`${j}`]) //to check if its seat or emptyspace
                {    
+                //    console.log("cost",Cost);
                     SeatNo++;
+                    let bookedornot = theater.S1.rows[i][`${j}`];
+                    let uniqueSeatNo =`${i}${j}`;
+                    let seatStatus= (SeatSelection[`${uniqueSeatNo}`]) ? "selected-seat" :bookedornot;
                                             //giving classname directly as booked / notbooked
-                    EachRow[i][j] = <div className={theater.S1.rows[i][`${j}`]} >{SeatNo}</div>  
+                    EachRow[i][j] = <div id={Cost} onClick={ (e) => handleSelect(`${uniqueSeatNo}` , e.target)  }  className={ seatStatus } >{SeatNo}</div>  
                }
                else{
                     EachRow[i][j]=<div className='empty'></div> 
@@ -523,6 +566,7 @@ export function ShowScreen(movies)
     return(
 
         <div className='theater-container'>
+            
             <div className='seat-info'>
                 <hr/>
                 <div><div className='booked' ></div><label>: Booked Seat</label></div>
@@ -533,7 +577,7 @@ export function ShowScreen(movies)
                 <hr/>
             </div>
             <div className='seats-container'>
-                    {ArrangeSeats().map((row ) => <div className='row'>
+                    {ArrangeSeats().map((row ,i) => <div key={i} className='row'>
                                         {/* <p>{String.fromCharCode(65)}</p> */}
                                         {row}
                                     </div>   ) }
@@ -545,6 +589,14 @@ export function ShowScreen(movies)
                 <p>All Eyes Here</p>
                 <div  className='screen'></div>
                 <p>Screen</p>
+            </div>
+            <div style={{display:(SelectedSeats>0)?"flex":"none"}} className='total-price'>
+                <div >
+                    <label>Selected Seats :</label> {SelectedSeats}
+                </div>
+                <div >
+                 <label> Total Price : RS.</label> {totalCost}
+                </div>
             </div>
         </div>
     );
