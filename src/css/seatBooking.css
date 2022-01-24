@@ -59,16 +59,19 @@
     /* width: 15px;
     height: 15px; */
 
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
 
     min-width: 15px;
     min-height: 15px;
     text-align: center;
+    padding: 2px;
     border-radius: 2px;
-    font-size: 10px;
+    font-size: 12px;
     color: rgb(172, 171, 171);
 }
+
+
 
 
 .notbooked{
@@ -88,15 +91,33 @@
 .booked{
     background-color: rgb(214, 147, 0);
     color: black;
-   
+    
     pointer-events: none;
      /* cursor: not-allowed; */
 }
 
 .selected-seat{
 
-    background-color: rgba(213, 119, 68, 0.857);
+    /* background-color: rgba(213, 119, 68, 0.857); */
+    background-color: rgb(197, 70, 1);
+    /* box-shadow: 1px 1px 5px rgb(36, 24, 1) inset; */
     cursor: pointer;
+    animation: SeatSelecting 0.15s 1 forwards linear;
+
+}
+
+@keyframes  SeatSelecting{
+    
+    from{
+        /* opacity: 0; */
+        box-shadow: 0px 0px 0px rgb(36, 24, 1) inset;
+        font-size: 12px;
+    }
+    to{
+        /* opacity: 1; */
+        box-shadow: 1px 1px 6px rgb(36, 24, 1) inset;
+        font-size: 10px;
+    }
 }
 
 .seats-section{
@@ -133,19 +154,67 @@
 .total-price{
 
     color: white;
-    margin-top: 40px;
-
+    width: min(400px,90vw);
+    margin:40px auto;
+    padding: 20px 0;
     
-    background-color: rgba(213, 119, 68, 0.857);
+    background-color: rgba(79, 79, 79, 0.857);
     border-radius: 10px;
-    padding: 5px;
+    
     letter-spacing: 1px;
 
 
-    font-size: 20px;
-    display: flex;
+    font-size: 20px; 
+    /* display: flex; */
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
 }
 
+.buy-btn{
+
+    padding: 0.8em 1.8em;
+    border: 2px solid rgb(214, 147, 0);
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    background-color: transparent;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 16px;
+    transition: .3s;
+    z-index: 1;
+    font-family: inherit;
+    color: rgb(214, 147, 0);
+    
+
+}
+
+.buy-btn::before {
+    content: '';
+    width: 0;
+    height: 300%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    /* background: #17C3B2; */
+    background-color: rgb(214, 147, 0);
+    transition: .5s ease;
+    display: block;
+    z-index: -1;
+
+}
+
+.buy-btn:hover::before {
+     width: 105%;
+    
+}
+.buy-btn:hover{
+
+    color: rgb(236, 228, 228);
+}
+
+.buy-btn:active {
+    transform: translateY(-1px);
+   }

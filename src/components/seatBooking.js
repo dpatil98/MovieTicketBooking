@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import '../css/seatBooking.css';
 
-
+import Badge from '@mui/material/Badge';
+import { styled } from '@mui/material/styles';
 
 const theater={
             "tname":"Smoeething",
@@ -562,6 +563,17 @@ export function ShowScreen(movies)
         }
         return EachRow;
     }
+
+    // for changing badge background color
+    const StyledBadge = styled(Badge)(({ theme }) => ({
+        "& .MuiBadge-badge": {
+            padding:"12px",
+            border: `2px solid rgb(214, 147, 0)`,
+            backgroundColor:"rgb(197, 70, 1)",
+            boxShadow: "1px 1px 5px rgb(36, 24, 1) inset",
+
+        }
+      }));
    
     return(
 
@@ -590,12 +602,11 @@ export function ShowScreen(movies)
                 <div  className='screen'></div>
                 <p>Screen</p>
             </div>
-            <div style={{display:(SelectedSeats>0)?"flex":"none"}} className='total-price'>
-                <div >
-                    <label>Selected Seats :</label> {SelectedSeats}
-                </div>
-                <div >
-                 <label> Total Price : RS.</label> {totalCost}
+            <div style={{display:(SelectedSeats>0)?"flex":"none"}} className='total-price'>    
+                <div >           
+                    <StyledBadge title='Selected Seats' badgeContent={SelectedSeats} color="success">
+                        <button title='Buy Tickets' className='buy-btn'>Pay RS. {totalCost}</button>
+                    </StyledBadge>      
                 </div>
             </div>
         </div>
