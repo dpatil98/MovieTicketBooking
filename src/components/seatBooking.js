@@ -544,7 +544,7 @@ export function ShowScreen(movies)
                     let uniqueSeatNo =`${i}${j}`;
                     let seatStatus= (SeatSelection[`${uniqueSeatNo}`]) ? "selected-seat" :bookedornot;
                                             //giving classname directly as booked / notbooked
-                    EachRow[i][j] = <div id={Cost} onClick={ (e) => handleSelect(`${uniqueSeatNo}` , e.target)  }  className={ seatStatus } >{SeatNo}</div>  
+                    EachRow[i][j] = <div key={j} id={Cost} onClick={ (e) => handleSelect(`${uniqueSeatNo}` , e.target)  }  className={ seatStatus } >{SeatNo}</div>  
                }
                else{
                     EachRow[i][j]=<div className='empty'></div> 

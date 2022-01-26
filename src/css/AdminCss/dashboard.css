@@ -1,0 +1,71 @@
+.dashboard-container{
+
+    /* width: 100%; */
+    /* height: 200px; */
+    /* background-color: rgb(0, 65, 65); */
+    background: linear-gradient(0deg, #4b6cb7 0%, #182848 100%);
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+
+.theater-headers{
+
+    color: white;
+    padding: 40px 0 ;
+    margin: 0 20px;
+    display:flex;
+    justify-content: space-between;
+}
+
+.container-title{
+
+    letter-spacing: 1px;
+    font-weight: 300;
+    /* text-transform: uppercase; */
+
+}
+
+
+.Add-form-container{
+
+    background-color: rgb(0, 44, 65);
+    
+}
+
+.add-screen-container{
+
+    background: linear-gradient(10deg, #0e3b9d 0%, #000851 100%);
+
+}
+
+.screen-rows, .addScreen-Max-seats{
+    
+    margin: 5px 0;
+    justify-content: center;
+    display: flex;
+    gap:10px;
+}
+
+.screen-box{
+
+    width: 19px;
+    height: 19px;
+
+    min-width: 15px;
+    min-height: 15px;
+
+    background-color: rgba(36, 36, 36, 0.556);
+    /* margin: 0 5px; */
+    
+}
+
+.addScreen-btns-grp{
+
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    flex-wrap: wrap;
+
+}

@@ -30,6 +30,8 @@ import { MovieDetails } from './components/movieDetails.js';
 import { Allmovies } from './components/allMovies.js';
 import { SelectingShow } from './components/displayShows.js';
 import {ShowScreen} from './components/seatBooking.js';
+import { Dashboard } from './components/Admin/Dashboard';
+
 
 
 
@@ -175,6 +177,9 @@ function App() {
             <Route exact path="/bookingScreen">
               < ShowScreen movies={movies}/>
             </Route>
+            <Route  path="/admin">
+              < Dashboard/>
+            </Route>
             <Route Path="**">
                     404 NOT FOUND
             </Route>
@@ -182,6 +187,8 @@ function App() {
 
       </Container>
     </React.Fragment>
+
+    
     </div>
   );
 }
