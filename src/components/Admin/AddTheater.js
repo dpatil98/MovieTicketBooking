@@ -33,6 +33,7 @@ export function AddTheater() {
           </Button>
         </div>
     </div>
+    <hr/>
     <div className='Add-form-container'>
         <Box
             component="form"

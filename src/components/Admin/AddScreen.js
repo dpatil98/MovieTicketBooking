@@ -6,25 +6,40 @@ import { useState } from 'react';
 export function AddScreen() {
 
     const [rows, setRows] = useState(1);
-    const [MaxSpace, setMaxSpace] = useState(1);
+    const [MaxSpace, setMaxSpace] = useState(0);
     // const [rows, setRows] = useState([{"row":[]},]);
     const [Section, setSection] = useState([0]);
-    const [seatSelection, setSeatSelection] = useState([0,]);
-
+    const [seatSelection, setSeatSelection] = useState([]);
+    const [rData ,setRData] = useState([{},]);
     // const [SelectedSeats ,setSelectedSeats] = useState(0);
     // const [No,setNO] =useState(0);/
 
 
-    const Select = (SeatNo) => 
+    const Select = (SeatNo,ind) => 
     {
         console.log(SeatNo);
         // setSeatSelection([...seatSelection, SeatNo ]);
         // // setSeatSelection({...seatSelection,  [SeatNo]:!seatSelection[SeatNo] ?true:false  }) ;
+
         setSeatSelection({ ...seatSelection, [SeatNo]: (!seatSelection[`${SeatNo}`]) ? true : false });
-        // console.log("Seats", seatSelection );
+        // setRData( [...rData, { [SeatNo]: (!seatSelection[`${SeatNo}`]) ? true : false  } ] )
+        // setRData( [...rData, {} ] );
+
+        rData.map( (data,index) => 
+                        { if(index===ind){
+                                {
+                                    data[`${SeatNo}`]=(!data[`${SeatNo}`]) ? true : false;
+                                    // console.log(dataN);
+                                }
+
+                        } 
+        } ) ;
+
+        // console.log("index", ind);
     };
 
-    console.log("Section", Section );
+    console.log("Seats", seatSelection );
+    console.log("RData", rData );
 
     // const handleAddRow = () => {
     //     let raow = [];
@@ -60,6 +75,22 @@ export function AddScreen() {
 
     // };
 
+
+    const handleData =(dataN,i,key) => 
+    {
+        rData.map( (data,index) => 
+                        { if(index===i){
+                                {
+                                    data[`${key}`]=dataN;
+                                    console.log(dataN);
+                                }
+
+                        } 
+        } ) ;
+        console.log("RData", rData );
+    }
+
+
     const ArrangeSeats = () =>{
 
         let EachRow=[];
@@ -75,23 +106,25 @@ export function AddScreen() {
 
             if( Section[SectionIndex]===i)
             {         
-                EachRow[i][0] = <TextField id="standard-basic" key={i} label="Section Name" variant="standard" sx={{ input: { color: 'white' } }} InputLabelProps={{ style: { color: '#ddd', fontSize: '14px' } }} /> ;
-                EachRow[i][1] =<TextField id="standard-basic" key={i+"a"} label="Cost" variant="standard" sx={{ input: { color: 'white' } }} InputLabelProps={{ style: { color: '#ddd', fontSize: '14px' } }} />
+                EachRow[i][0] = <TextField id="standard-basic" onChange={(e)=>handleData(e.target.value,i,'SectionName')} key={i} label="Section Name" variant="standard" sx={{ input: { color: 'white' } }} InputLabelProps={{ style: { color: '#ddd', fontSize: '14px' } }} /> ;
+                EachRow[i][1] = <TextField id="standard-basic"  onChange={(e)=>handleData(e.target.value,i,'Cost')} key={i+"a"} label="Cost" variant="standard" sx={{ input: { color: 'white' } }} InputLabelProps={{ style: { color: '#ddd', fontSize: '14px' } }} />
                 SectionIndex++;
+                
                 continue;
             }
 
          try {
              
-            for(let j=0;j<=MaxSpace;j++)
+            for(let j=0;j<MaxSpace;j++)
             {
 
 
                     
                     let uniqueSeatNo =`${i}${j}`;
-                    let seatStatus= (seatSelection[`${uniqueSeatNo}`]) ? "selected-seat" :'screen-box';
+                    // let seatStatus= (seatSelection[`${uniqueSeatNo}`]) ? "selected-seat" :'screen-box';
+                    let seatStatus= (rData[i][`${uniqueSeatNo}`]) ? "selected-seat" :'screen-box';                    
                                             //giving classname directly as booked / notbooked
-                    EachRow[i][j] = <div key={j}  onClick={ (e) => Select(`${uniqueSeatNo}` , e.target)  }  className={ seatStatus } ></div>  
+                    EachRow[i][j] = <div key={j}  onClick={ () => Select(`${uniqueSeatNo}` ,i)  }  className={ seatStatus } ></div>  
 
             }
          
@@ -101,9 +134,47 @@ export function AddScreen() {
 
             }        
         }
+        // console.log(EachRow)
         return EachRow;
     }
 
+
+    const handleAddRow=()=>
+    {
+        setRows(rows+1) ;
+        setRData( [...rData, {} ] );
+    }
+
+    const handleRemoveRow=()=>
+    {
+        setRows(rows-1) ;
+        setRData(rData.slice(0,-1) );
+       
+    }
+
+    const handleAddSection=()=>
+    {
+       
+        setSection([...Section ,rows]);
+        setRows(rows+1); 
+        setRData( [...rData, {} ] );
+    }
+
+    const handleRemoveSection=()=>
+    {
+       
+        setSection(   Section.slice(0, -1) ); 
+        setRows(rows-1); 
+        setRData( rData.slice(0,-1) );
+        
+    }
+
+    const handleSave= (a) =>
+    {
+     const  re= a.map((g) => g).map((s)=>s).map(sd=>sd);
+        
+        console.log(re);
+    }
 
     return (
         <div className="add-screen-container">
@@ -120,19 +191,23 @@ export function AddScreen() {
                                     </div>   ) }
             </div>
             <div className='addScreen-btns-grp'>
-                {/* <Button onClick={() => handleAddRow()}>AddRow</Button> */}
-                <Button variant="contained" onClick={() => setRows(rows+1) }>Add-Row</Button>
-                {/* <Button onClick={() => handleAddSection()}>AddSection</Button> */}
-                <Button variant="contained" onClick={() =>{ setSection([...Section ,rows]); setRows(rows+1) }  }>Add-Section</Button>
-                <Button variant="contained" onClick={() =>{ setRows(rows-1) }  }>Remove Recent Row</Button>
-                <Button variant="contained" onClick={() =>{ setSection(   Section.slice(0, -1) ); setRows(rows-1); }  }>Remove Recent Section</Button>
-                {/* <Button onClick={() => Select(12)}>Add</Button> */}
+             
+                {/* <Button variant="contained" onClick={() => setRows(rows+1) }>Add-Row</Button> */}
+                <Button variant="contained" onClick={() => handleAddRow() }>Add-Row</Button>
+
+                {/* <Button variant="contained" onClick={() =>{ setSection([...Section ,rows]); setRows(rows+1) }  }>Add-Section</Button> */}
+                <Button variant="contained" onClick={() => handleAddSection()   }>Add-Section</Button>
+
+                {/* <Button variant="contained" onClick={() =>{ setRows(rows-1) }  }>Remove Recent Row</Button> */}
+                <Button variant="contained" color='error' onClick={() => handleRemoveRow() }>Remove Recent Row</Button>
+
+                <Button variant="contained" color='error' onClick={() => handleRemoveSection() }>Remove Recent Section</Button>
+                
             </div>
             <div className='addScreen-btns-grp'>
                 
-                <Button variant="contained" color='success' >Save Screen</Button>
+                <Button variant="contained" onClick={() => handleSave( ArrangeSeats() )} color='success' >Save Screen</Button>
                 
-                {/* <Button onClick={() => Select(12)}>Add</Button> */}
             </div>
             <div className='show-screen'>
                 <p>All Eyes Here</p>
