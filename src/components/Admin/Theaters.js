@@ -12,7 +12,9 @@ export function Theaters() {
  const history = useHistory();
 
   const handleAddTheater = () => {
-   history.push('./addtheater');
+
+    history.push('./addtheater');
+  
   };
 
   return (
