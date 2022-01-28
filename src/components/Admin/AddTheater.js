@@ -62,7 +62,7 @@ export function AddTheater() {
   return (
 
   <div className='theater-container'>
-      <div className='theater-headers'>
+      <div className='dashboard-section-headers'>
           <div>
             <Typography className='container-title' sx={{ letterSpacing: '1px', fontWeight: '300' }} variant="h4"><CameraOutdoorIcon />  Add Theater</Typography>
           </div>

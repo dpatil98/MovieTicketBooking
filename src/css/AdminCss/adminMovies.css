@@ -1,0 +1,33 @@
+
+
+
+
+/* Addmovie Css  starts--------------*/
+
+.addmovie-form-conainer{
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 0 30px;
+    padding: 20px 0 40px 0;
+    
+    /* background-color: rgb(27, 65, 65); */
+    border-radius: 20px;
+    
+
+}
+
+
+/* add /remove inpute fields btns for cast,crew etc */
+.addmovie-frombtn-grp{
+
+    margin: auto;
+    /* background-color: bisque; */
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+}
+

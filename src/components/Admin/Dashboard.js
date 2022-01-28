@@ -1,5 +1,5 @@
 
-import { Link, Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch, useHistory } from 'react-router-dom';
 import '../../css/AdminCss/dashboard.css';
 
 
@@ -35,6 +35,8 @@ import TableRow from '@mui/material/TableRow';
 
 import { AddTheater } from './AddTheater';
 import { Theaters } from './Theaters';
+import { AdminMovies } from './AdminMovies';
+import { AddMovieBox } from './AddMovie';
 
 
 export function Dashboard()
@@ -45,12 +47,18 @@ export function Dashboard()
         <div className="dashboard-container">
           <MiniDrawer />
           <Switch>      
-            <Route exact path="/admin/theater">
+            <Route exact path="/admin/theaters">
                 <Theaters />
             </Route> 
             <Route exact path="/admin/addtheater">
                 <AddTheater />
+            </Route>
+            <Route exact path="/admin/movies">
+                <AdminMovies />
             </Route>    
+            <Route exact path="/admin/addmovie">
+                <AddMovieBox/>
+            </Route>
             <Route Path="**">
                     404 NOT FOUND
             </Route>
@@ -155,7 +163,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
- 
+ const history =useHistory();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -195,12 +203,12 @@ export function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List sx={{display:(open || window.innerWidth>=1280)?'block':'none'}}>
-          {['Movies', 'Theater', 'Admins', 'Users'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
+          {[['Movies','./movies'], ['Theater','./theaters'], ['Admins','./admins'], ['Users','./users']].map((text, index) => (
+            <ListItem button  onClick={()=>{ history.replace(text[1]) }} key={text[0]}>
+              <ListItemIcon >
                 {index % 2 === 0 ? <InboxIcon color='inherit' /> : <MailIcon />}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={text[0]} />
             </ListItem>
           ))}
         </List>
