@@ -12,6 +12,11 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import RemoveCircleTwoToneIcon from '@mui/icons-material/RemoveCircleTwoTone';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 
 export function AddMovieBox() {
  
@@ -22,6 +27,13 @@ export function AddMovieBox() {
   const [poster, SetPoster] = useState("");
   const [rating, SetRating] = useState("");
   const [summary, SetSummary] = useState("");
+  const [RTomatoes, SetRTomatoes] = useState("");
+
+  const [mDuration, SetMDuration] = useState({hr:'0',min:'00'});
+  const [languages, SetLanguages] = useState({});
+  const [genre, SetGenre] = useState({});
+  const [format, SetFormat] = useState({});
+
   const [trailer, SetTrailer] = useState([{},]);
   const [totalClips, SetTotalClips] = useState(1);
 
@@ -34,6 +46,9 @@ export function AddMovieBox() {
   console.log("tailer: ",trailer);
   console.log("Cast: ",castData);
   console.log("Crew: ",crewData);
+  console.log("Lang",languages);
+  console.log("Genre",genre);
+  console.log("Formate",format);
 
   const AddMovie = () => {
 
@@ -244,6 +259,24 @@ export function AddMovieBox() {
   }
 
 
+  const handleLanguages=(key)=>
+  {
+    // console.log(key);
+    languages[`${key}`]=(!languages[`${key}`]) ? true : false ;
+  }
+
+  const handleGenre=(key)=>
+  {
+    // console.log(key);
+    genre[`${key}`]=(!genre[`${key}`]) ? true : false ;
+  }
+
+  const handleFormat=(key)=>
+  {
+    // console.log(key);
+    format[`${key}`]=(!format[`${key}`]) ? true : false ;
+  }
+
   return (
 
     <div className="AddMovie-container ">
@@ -262,7 +295,7 @@ export function AddMovieBox() {
 
       <TextField
         sx={{ input: { color: "white", margin: "0 20px" } }}
-        InputLabelProps={{ style: { color: "#fff", margin: "0 20px" } }}
+        InputLabelProps={{ style: { color: "#AAA", margin: "0 20px" } }}
         label="Poster Link"
         id="standard-basic"
         variant="standard"
@@ -274,29 +307,90 @@ export function AddMovieBox() {
         variant="standard"
         value={name}
         sx={{ input: { color: "white", margin: "0 20px" } }}
-        InputLabelProps={{ style: { color: "#fff", margin: "0 20px" } }}
+        InputLabelProps={{ style: {color: "#AAA", margin: "0 20px" } }}
         onChange={(event) => SetName(event.target.value)} />
 
-      <TextField id="standard-basic"
-        label="rating"
+      {/* <TextField id="standard-basic"
+        label="Rating(UA/R-rated)"
         variant="standard"
         value={rating}
         sx={{ input: { color: "white", margin: "0 20px" } }}
-        InputLabelProps={{ style: { color: "#fff", margin: "0 20px" } }}
-        onChange={(event) => SetRating(event.target.value)} />
+        InputLabelProps={{ style: { color: "#AAA", margin: "0 20px" } }}
+        onChange={(event) => SetRating(event.target.value)} /> */}
 
       <TextField id="standard-basic"
         label="Summary "
         variant="standard"
-        value={summary}
+        // value={summary}
+        sx={{ input: { color: "white", margin: "0 20px" } }}
+        InputLabelProps={{ style: { color: "#AAA", margin: "0 20px" } }}
+        onChange={(event) => SetSummary(event.target.value)} />
+
+      <div>
+      <TextField id="standard-basic"
+        label="Rotton Tomato Score "
+        variant="standard"
+        // value={RTomatoes}
+        type='number'
+        InputProps={{ inputProps: { max: 100, min: 0, pattern: '[0-9]*'  }} }
+        sx={{ input: { color: "white", margin: "0 20px" ,width:'150px'} }}
+        InputLabelProps={{ style: { color: "#AAA", margin: "0 20px" } }}
+        onChange={(event) => {SetRTomatoes(event.target.value)}} />
+      </div>
+
+      <div>
+        <div>
+          <Typography sx={{ letterSpacing: '1px', color: "#AAA"}} variant="h6">Duration :</Typography>
+        </div>
+        <TextField id="standard-basic"
+        label="Hr"
+        type='number'
+        InputProps={{ inputProps: { max: 24, min: 0, pattern: '[0-9]*'  }} }
+        variant="standard"        
         sx={{ input: { color: "white", margin: "0 20px" } }}
         InputLabelProps={{ style: { color: "#fff", margin: "0 20px" } }}
-        onChange={(event) => SetSummary(event.target.value)} />
+        onChange={(event) => {mDuration.hr=event.target.value}} />
+
+        <TextField id="standard-basic"
+        label="Min"
+        type='number'
+        InputProps={{ inputProps: { max: 60, min: 0, pattern: '[0-9]*'  }} }
+        variant="standard"        
+        sx={{ input: { color: "white", margin: "0 20px" } }}
+        InputLabelProps={{ style: { color: "#fff", margin: "0 20px" } }}
+        onChange={(event) => {mDuration.min=event.target.value}} />
+      </div>
+      
+      <div>
+        <div>
+          <Typography sx={{ letterSpacing: '1px', color: "#AAA"}} variant="h6">Rating :</Typography>
+        </div>
+        <FormControl sx={{ m: 1, minWidth: 120, color:'white' }}>
+        <InputLabel  id="demo-simple-select-helper-label">Rating</InputLabel>
+        <Select
+          labelId="demo-simple-select-helper-label"
+          id="demo-simple-select-helper"
+          value={rating}
+          label="Age"
+          sx={{ color:'white' }}
+          onChange={(event) => {
+            SetRating(event.target.value)}}
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value='UA'>UA</MenuItem>
+          <MenuItem value='R-Rated'>R-Rated</MenuItem>
+          <MenuItem value='PG-13'>PG-13</MenuItem>
+        </Select>
+        {/* <FormHelperText>With label + helper text</FormHelperText> */}
+      </FormControl>
+      </div>
 
       {/* will print the inputfield for trailersNClips */}
       <div >
         <div>
-        <Typography sx={{ letterSpacing: '1px', color:'white'}} variant="h6">Trailers :</Typography>
+        <Typography sx={{ letterSpacing: '1px',color: "#AAA"}} variant="h6">Trailers :</Typography>
         </div>
         {handleHowManyClips()}
       </div>
@@ -309,18 +403,46 @@ export function AddMovieBox() {
       
       <div className='addmovie-lanuages-container'>
         <div>
-        <Typography sx={{ letterSpacing: '1px', color:'white'}} variant="h6">Lanuages :</Typography>
+        <Typography sx={{ letterSpacing: '1px',color: "#AAA"}} variant="h6">Languages :</Typography>
         </div>
-        <FormControlLabel control={<Checkbox  />} label="English" />
-        <FormControlLabel control={<Checkbox  />} label="Hindi" />
-        <FormControlLabel control={<Checkbox  />} label="Marathi" />
-        <FormControlLabel control={<Checkbox  />} label="Tamil" />
+        <FormControlLabel control={<Checkbox onChange={()=>{handleLanguages('English')}} />} label="English" />
+        <FormControlLabel control={<Checkbox onChange={()=>{handleLanguages('Hindi')}} />} label="Hindi" />
+        <FormControlLabel control={<Checkbox onChange={()=>{handleLanguages('Marathi')}} />} label="Marathi" />
+        <FormControlLabel control={<Checkbox onChange={()=>{handleLanguages('Tamil')}} />} label="Tamil" />
+      </div>
+
+      <div className='addmovie-lanuages-container'>
+        <div>
+        <Typography sx={{ letterSpacing: '1px', color: "#AAA"}} variant="h6">Genre :</Typography>
+        </div>
+        <FormControlLabel control={<Checkbox onChange={()=>{handleGenre('Horror')}}  />} label="Horror" />
+        <FormControlLabel control={<Checkbox onChange={()=>{handleGenre('Comedy')}}/>} label="Comedy" />
+        <FormControlLabel control={<Checkbox onChange={()=>{handleGenre('Adventure')}} />} label="Adventure" />
+        <FormControlLabel control={<Checkbox onChange={()=>{handleGenre('Superhero')}} />} label="Superhero" />
+        <FormControlLabel control={<Checkbox onChange={()=>{handleGenre('Thriller')}} />} label="Thriller" />
+        <FormControlLabel control={<Checkbox onChange={()=>{handleGenre('Drama')}} />} label="Drama" />
+        <FormControlLabel control={<Checkbox onChange={()=>{handleGenre('Fantasy')}} />} label="Fantasy" />
+        <FormControlLabel control={<Checkbox onChange={()=>{handleGenre('Historical')}} />} label="Historical" />
+        <FormControlLabel control={<Checkbox onChange={()=>{handleGenre('Biography')}} />} label="Biography" />
+        <FormControlLabel control={<Checkbox onChange={()=>{handleGenre('Sci-fi')}} />} label="Sci-fi" />
+        <FormControlLabel control={<Checkbox onChange={()=>{handleGenre('Animated')}} />} label="Animated" />
+      </div>
+
+
+      <div className='addmovie-lanuages-container'>
+        <div>
+        <Typography sx={{ letterSpacing: '1px', color: "#AAA"}} variant="h6">Format :</Typography>
+        </div>
+        <FormControlLabel control={<Checkbox onChange={()=>{handleFormat('2D')}} />} label="2D" />
+        <FormControlLabel control={<Checkbox onChange={()=>{handleFormat('3D')}} />} label="3D" />
+        <FormControlLabel control={<Checkbox onChange={()=>{handleFormat('IMAX')}} />} label="IMAX" />
+        <FormControlLabel control={<Checkbox onChange={()=>{handleFormat('IMAX3D')}} />} label="IMAX3D" />
       </div>
 
      {/* will render the inputfield for castdetails */}
       <div>
         <div>
-          <Typography sx={{ letterSpacing: '1px', color:'white'}} variant="h6">Cast :</Typography>
+          <Typography sx={{ letterSpacing: '1px',color: "#AAA"}} variant="h6">Cast :</Typography>
         </div>
          {handleHowManyCast()}
       </div>
@@ -335,7 +457,7 @@ export function AddMovieBox() {
       {/* will render the inputfield for Crew details */}
       <div>
         <div>
-          <Typography sx={{ letterSpacing: '1px', color:'white'}} variant="h6">Crew :</Typography>
+          <Typography sx={{ letterSpacing: '1px', color: "#AAA"}} variant="h6">Crew :</Typography>
         </div>
          {handleHowManyCrew()}
       </div>
