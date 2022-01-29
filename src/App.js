@@ -35,10 +35,11 @@ import { Dashboard } from './components/Admin/Dashboard';
 
 
 
-
+ export const API_URL="http://localhost:9000";
 
 
 function App() {
+
 
   const movies=[{ "id": "100", 
                 "trailerAndClips": [{"link":"https://www.youtube.com/embed/6hB3S9bIaco","title":"Trailer 1"},
@@ -144,7 +145,7 @@ function App() {
                   "summary": "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.", 
                   "rating": 8.9 }];
 
- 
+             
 
   return (
     <div className="App">
