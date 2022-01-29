@@ -3,7 +3,7 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useHistory } from 'react-router';
-
+import{API_URL} from '../../App.js'
 
 import Typography from '@mui/material/Typography';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -22,6 +22,8 @@ export function AddMovieBox() {
  
 
   const history =useHistory();
+
+  const [allTheaters, SetAllTheaters] = useState("");
 
   const [name, SetName] = useState("");
   const [poster, SetPoster] = useState("");
@@ -43,12 +45,17 @@ export function AddMovieBox() {
   const [totalCrew, SetTotalCrew] = useState(1);
   const [crewData, SetCrewData] = useState([{},]);
 
+  const [totalTheaters, SetTotalTheaters] = useState(1);
+  //note:idea:shows wont show if screen alreay booked on this date by another movie
+  const [assignedTheatersData, SetAssignedTheatersData] = useState([{city:'pune',theatername:'Inox',screen:'Screen1',date:'11-09-2022',shows:{1:'11:40',2:'3:45',}},]);
+
   console.log("tailer: ",trailer);
   console.log("Cast: ",castData);
   console.log("Crew: ",crewData);
   console.log("Lang",languages);
   console.log("Genre",genre);
-  console.log("Formate",format);
+  console.log("Format",format);
+  console.log("All Theaters",allTheaters);
 
   const AddMovie = () => {
 
@@ -69,6 +76,15 @@ export function AddMovieBox() {
   
   };
 
+  React.useEffect(async ()=>{
+      console.log("Getting Theaters");
+      await fetch(`${API_URL}/theaters`,{
+      method : "GET"  
+      }).then((response) => response.json())
+        .then(data => SetAllTheaters(data))
+        .catch( (e) => console.log(e));
+      
+  },[]);
 
   const handleClipsData=(data,i,key)=>{
 
@@ -259,6 +275,7 @@ export function AddMovieBox() {
   }
 
 
+
   const handleLanguages=(key)=>
   {
     // console.log(key);
@@ -275,6 +292,35 @@ export function AddMovieBox() {
   {
     // console.log(key);
     format[`${key}`]=(!format[`${key}`]) ? true : false ;
+  }
+
+
+
+  const handleHowManyTheater=()=>
+  {
+    let Theaters=[];
+      
+      Theaters.push( <FormControl sx={{ m: 1, minWidth: 120, color:'white' }}>
+        <InputLabel  id="demo-simple-select-helper-label">Theater Name </InputLabel>
+        <Select
+          labelId="demo-simple-select-helper-label"
+          id="demo-simple-select-helper"
+          value={rating}
+          label="Age"
+          sx={{ color:'white' }}
+          // onChange={(event) => {
+          //   SetRating(event.target.value)}}
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          {(allTheaters)?allTheaters.map(({TheaterName}) => <MenuItem value='UA'>{TheaterName}</MenuItem> ):null }
+        </Select>
+        {/* <FormHelperText>With label + helper text</FormHelperText> */}
+      </FormControl> );
+
+      return Theaters;
+
   }
 
   return (
@@ -465,6 +511,14 @@ export function AddMovieBox() {
       <div className='addmovie-frombtn-grp'>
         <Button  variant="contained" onClick={()=>handleAddCrewInput() }   startIcon={<AddCircleOutlineIcon />}>Add Crew</Button>
         <Button  variant="contained" onClick={()=>handleRemoveCrewInput()} color='warning' startIcon={<RemoveCircleTwoToneIcon />}>Remove Crew</Button>
+      </div>
+
+
+      <div>
+        <div>
+          <Typography sx={{ letterSpacing: '1px', color: "#AAA"}} variant="h6">Assign Theater and Shows :</Typography>
+        </div>
+         {handleHowManyTheater()}
       </div>
           
         </FormGroup>
