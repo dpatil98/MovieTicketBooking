@@ -16,12 +16,19 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+// import AdapterDateFns from '@mui/lab/AdapterDateFns';
+// import LocalizationProvider from '@mui/lab/LocalizationProvider';
+
+// import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+
 
 
 export function AddMovieBox() {
  
 
   const history =useHistory();
+
+  const [reRender, SetReRender] = useState(true);
 
   const [allTheaters, SetAllTheaters] = useState("");
 
@@ -47,7 +54,12 @@ export function AddMovieBox() {
 
   const [totalTheaters, SetTotalTheaters] = useState(1);
   //note:idea:shows wont show if screen alreay booked on this date by another movie
-  const [assignedTheatersData, SetAssignedTheatersData] = useState([{city:'pune',theatername:'Inox',screen:'Screen1',date:'11-09-2022',shows:{1:'11:40',2:'3:45',}},]);
+  // const [assignedTheatersData, SetAssignedTheatersData] = useState([{city:'pune',theatername:'Inox',screen:'Screen1',date:'11-09-2022',shows:{1:'11:40',2:'3:45',}},]);
+  const [totalAssignedTheaters, SetTotalAssignedTheaters] = useState(1);
+  const [assignedTheatersData, SetAssignedTheatersData] = useState([{TotalShows:1, Shows:{} }]);
+
+  const [totalShows, SetTotalShows] = useState(1);
+  // const [assignedTheatersData, SetAssignedTheatersData] = useState([{}]);
 
   console.log("tailer: ",trailer);
   console.log("Cast: ",castData);
@@ -56,6 +68,8 @@ export function AddMovieBox() {
   console.log("Genre",genre);
   console.log("Format",format);
   console.log("All Theaters",allTheaters);
+  console.log("Assigned Theater",assignedTheatersData);
+
 
   const AddMovie = () => {
 
@@ -100,7 +114,7 @@ export function AddMovieBox() {
     for(let i=0;i<totalClips;i++)
     {
       TrailersNClips.push(
-      <div key={'trailer'+i}>
+      <div key={'trailer'+i} >
 
       <TextField id="standard-basic"
       key={'link'+i}
@@ -296,32 +310,244 @@ export function AddMovieBox() {
 
 
 
+  const handleAssignedShows=(data,i,theaterIndex,key)=>{
+    // console.log(data,i,key);
+    assignedTheatersData[theaterIndex].Shows[`${key}`]=data;
+    SetReRender( !reRender);
+  }
+
+  const handleAddAssignedShows=(theaterIndex)=>{
+
+    SetTotalShows(totalShows+1);
+    assignedTheatersData[theaterIndex].TotalShows+=1;
+    // SetAssignedTheatersData([...assignedTheatersData[] ,{}  ])
+
+  }
+
+  const handleRemoveAssignedShows=(theaterIndex)=>{
+
+    if(assignedTheatersData[theaterIndex].TotalShows>0)
+    { 
+     const lastShow=`show${assignedTheatersData[theaterIndex].TotalShows}`;
+      delete assignedTheatersData[theaterIndex].Shows[lastShow];
+      assignedTheatersData[theaterIndex].TotalShows-=1;
+      // let keys = Object.keys(assignedTheatersData[theaterIndex].Shows)
+      // delete assignedTheatersData[theaterIndex].Shows[keys[keys.length-1]]
+      
+     SetReRender(!reRender);
+    }
+  }
+
+
+
+  const handleAssignedTheaterData=(data,i,key)=>{
+
+    assignedTheatersData[i][`${key}`]=data;
+    SetReRender( !reRender);
+  }
+
   const handleHowManyTheater=()=>
   {
     let Theaters=[];
-      
-      Theaters.push( <FormControl sx={{ m: 1, minWidth: 120, color:'white' }}>
-        <InputLabel  id="demo-simple-select-helper-label">Theater Name </InputLabel>
-        <Select
-          labelId="demo-simple-select-helper-label"
-          id="demo-simple-select-helper"
-          value={rating}
-          label="Age"
-          sx={{ color:'white' }}
-          // onChange={(event) => {
-          //   SetRating(event.target.value)}}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          {(allTheaters)?allTheaters.map(({TheaterName}) => <MenuItem value='UA'>{TheaterName}</MenuItem> ):null }
-        </Select>
-        {/* <FormHelperText>With label + helper text</FormHelperText> */}
-      </FormControl> );
+    
+    const TheatersInCity=(cityName)=>{
+      return  allTheaters.map((a) =>(cityName===a.City)?a.TheaterName:null ).filter(notempty => (notempty)!=null )
+    }
 
+    const ScreensInTheater=(TName)=>{
+
+      let SelctedTheater=allTheaters.filter( T => T.TheaterName===TName );
+      console.log("Selcted Theater",SelctedTheater[0].TotalScreen);
+      let MenuItems=[];
+      for(let i=1;i<=SelctedTheater[0].TotalScreen;i++)
+      {
+        MenuItems.push(<MenuItem key={"scr"+i} value={`Screen${i}`} >Screen{i}</MenuItem>)
+      }
+      return  MenuItems;
+    }
+
+    const handleHowManyShows=(theaterIndex)=>{
+
+      let shows=[];
+
+      for(let i=1;i<=assignedTheatersData[theaterIndex].TotalShows;i++)
+      {
+        shows.push(<TextField
+          id="date"
+          label="Show"
+          type="time"
+          value={(assignedTheatersData[theaterIndex].Shows[`show${i}`])?assignedTheatersData[theaterIndex].Shows[`show${i}`]:""}
+          // defaultValue="2017-05-24"
+          onChange={(event) => {
+            handleAssignedShows(event.target.value,i,theaterIndex,`show${i}`)
+          }}
+          sx={{ width: 220 }}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          />)
+      }
+
+      return shows;
+    }
+
+
+     if(allTheaters)
+    {
+      let cities;
+      const allcities= allTheaters.map((a) =>  a.City)
+      cities = allcities.filter((v, i, a) => a.indexOf(v) === i);
+        console.log("cities",cities);
+      
+        for(let i=0;i<totalAssignedTheaters;i++)
+        {
+          Theaters.push( 
+          <div>  
+          <FormControl key={"CS"+i} sx={{ m: 1, minWidth: 120, color:'white' }}>
+
+            <InputLabel  id="demo-simple-select-helper-label">City </InputLabel>
+            <Select
+              labelId="demo-simple-select-helper-label"
+              id="demo-simple-select-helper"
+              value={(assignedTheatersData[i]['City'])?assignedTheatersData[i]['City']:""}
+              label="Age"
+              sx={{ color:'white' }}
+              onChange={(event) => {
+                handleAssignedTheaterData(event.target.value,i,'City')
+                
+              }}
+            >
+            {cities.map((city,ind) => <MenuItem key={"C"+ind} value={city} >{city}</MenuItem> )}
+            </Select>
+          </FormControl> 
+
+            {(assignedTheatersData[i]['City']) ?
+            
+            <FormControl key={'TN'+i} sx={{ m: 1, minWidth: 120, color:'white' }}> 
+                <InputLabel  id="demo-simple-select-helper-label">Theater Name </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-helper-label"
+                    id="demo-simple-select-helper"
+                    value={(assignedTheatersData[i]['TheaterName'])?assignedTheatersData[i]['TheaterName']:""}
+                    label="TheaterName"
+                    sx={{ color:'white' }}
+                    onChange={(event) => {
+                      handleAssignedTheaterData(event.target.value,i,'TheaterName')
+                      
+                    }}
+                  >
+                  {TheatersInCity(assignedTheatersData[i]['City']).map((TName,ind) => <MenuItem key={"TNM"+ind} value={TName} >{TName}</MenuItem> )}
+                  </Select>
+            
+            </FormControl> 
+             :null}
+
+
+             {(assignedTheatersData[i]['TheaterName']) ?
+            
+            <FormControl key={'SN'+i} sx={{ m: 1, minWidth: 120, color:'white' }}> 
+                <InputLabel  id="demo-simple-select-helper-label">Theater Name </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-helper-label"
+                    id="demo-simple-select-helper"
+                    value={(assignedTheatersData[i]['ScreenNo'])?assignedTheatersData[i]['ScreenNo']:""}
+                    label="ScreenNo"
+                    sx={{ color:'white' }}
+                    onChange={(event) => {
+                      handleAssignedTheaterData(event.target.value,i,'ScreenNo')
+                      
+                    }}
+                  >
+                  {ScreensInTheater(assignedTheatersData[i]['TheaterName'])}
+                  </Select>
+            
+            </FormControl> 
+             :null}
+
+            {(assignedTheatersData[i]['ScreenNo']) ?
+            <div>
+                  <TextField
+                  id="date"
+                  label="Start Date"
+                  type="date"
+                  value={(assignedTheatersData[i]['StartDate'])?assignedTheatersData[i]['StartDate']:""}
+                  // defaultValue="2017-05-24"
+                  onChange={(event) => {
+                    handleAssignedTheaterData(event.target.value,i,'StartDate')
+                  }}
+                  sx={{ width: 220 }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  />
+                  <TextField
+                  id="date"
+                  label="End Date"
+                  type="date"
+                  value={(assignedTheatersData[i]['EndDate'])?assignedTheatersData[i]['EndDate']:""}
+                  onChange={(event) => {
+                    handleAssignedTheaterData(event.target.value,i,'EndDate')
+                  }}
+                  // defaultValue="2017-05-24"
+                  sx={{ width: 220 }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  /> 
+            </div>
+             :null}
+
+            {(assignedTheatersData[i]['StartDate'] && assignedTheatersData[i]['EndDate']) ?
+            <div>
+
+                    {handleHowManyShows(i)}
+
+                <div className='addmovie-frombtn-grp'>
+                  <Button  variant="contained" onClick={()=>handleAddAssignedShows(i) }   startIcon={<AddCircleOutlineIcon />}>Add Show</Button>
+                  <Button  variant="contained" onClick={()=>handleRemoveAssignedShows(i)} color='warning' startIcon={<RemoveCircleTwoToneIcon />}>Remove Show</Button>
+                </div>
+            </div>
+             :null}
+
+            </div>
+            
+          );
+        }
+    }
       return Theaters;
 
   }
+
+  const handleAddAssignedTheater=()=>{
+
+    SetTotalAssignedTheaters(totalAssignedTheaters+1);
+    SetAssignedTheatersData([...assignedTheatersData ,{TotalShows:1, Shows:{}}  ])
+
+  }
+
+  const handleRemoveAssignedTheater=()=>{
+
+    if(totalAssignedTheaters>0)
+    {
+      SetTotalAssignedTheaters(totalAssignedTheaters-1);
+      SetAssignedTheatersData(assignedTheatersData.slice(0, -1) );
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
 
@@ -519,6 +745,11 @@ export function AddMovieBox() {
           <Typography sx={{ letterSpacing: '1px', color: "#AAA"}} variant="h6">Assign Theater and Shows :</Typography>
         </div>
          {handleHowManyTheater()}
+      </div>
+
+      <div className='addmovie-frombtn-grp'>
+        <Button  variant="contained" onClick={()=>handleAddAssignedTheater() }   startIcon={<AddCircleOutlineIcon />}>Add Theater</Button>
+        <Button  variant="contained" onClick={()=>handleRemoveAssignedTheater()} color='warning' startIcon={<RemoveCircleTwoToneIcon />}>Remove Theater</Button>
       </div>
           
         </FormGroup>

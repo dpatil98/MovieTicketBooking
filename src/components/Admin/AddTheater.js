@@ -18,7 +18,7 @@ export function AddTheater() {
 
   let a={};
   const [addScreenStatus ,setAddScreenStatus]= React.useState(false);
-  const [theaterData ,setTheaterData] = React.useState([{TotalScreen:0,Facilities:{},}]);
+  const [theaterData ,setTheaterData] = React.useState([{TotalScreens:0,Facilities:{},}]);
   const [count, setCount]= React.useState(0); //just to re-Render this componant for checkbox
   
   // localStorage.clear();
