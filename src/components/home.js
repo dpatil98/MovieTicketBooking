@@ -51,7 +51,7 @@ export function Home( {movies} )
     dots: true,
     infinite: true,
     speed: 700,
-    slidesToShow: AcordingToScreen(),
+    slidesToShow: 1,
     slidesToScroll: AcordingToScreen()
   };
 
@@ -66,14 +66,16 @@ export function Home( {movies} )
               </div>
               <div >
                 <Slider className="movies-container" {...settings}>
-                {movies.map(({ trailer, poster, name, rating, summary, id }) => (<MovieBox  
+                {movies.map(({ trailer, poster, name, rating, summary, _id , RTomatoes,genre}) => (<MovieBox  
                   
                   trailer={trailer}
                   poster={poster}
                   name={name}
                   rating={rating}
                   summary={summary} 
-                  id={id}
+                  id={_id}
+                  genre={genre}
+                  RTomatoes={ RTomatoes}
                   />
                 ))}
                 </Slider>

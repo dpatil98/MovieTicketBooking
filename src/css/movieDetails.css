@@ -147,10 +147,11 @@
  .cast-info img{ 
 
     
-    border-radius: 50%;
+    border-radius: 30%;
     width: 90px;
     height: 90px;
     margin: auto;
+    border: 2px solid rgb(220, 202, 202);
 }
 
 /* actor name */
@@ -179,7 +180,13 @@
 
 
 
+.crew-Slider-container{
 
+    display: flex;
+    flex-direction: row;
+    background-color: aqua;
+
+}
 
 
 

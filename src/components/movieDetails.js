@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 
 // import Container from '@mui/material/Container';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
+import { API_URL } from '../App';
 
 
 export function MovieDetails({movies})
@@ -20,6 +21,7 @@ export function MovieDetails({movies})
     // console.log("Details",trailer ,poster,name,rating,summary,id);
      const { id } = useParams();
      const [width, setWidth ] = useState(window.innerWidth);
+   
      const history = useHistory();
 
      //to change the width 
@@ -31,9 +33,12 @@ export function MovieDetails({movies})
           };
         });
 
-     // console.log(width);
-     const selectedMovie = movies.filter( (mv) => mv.id===id );
+
         
+     
+     const selectedMovie = movies.filter( (mv) => mv._id===id );
+
+      console.log("selected movie",  selectedMovie );  
      const AcordingToScreen = (which) =>{
 
           
@@ -87,6 +92,7 @@ export function MovieDetails({movies})
           speed: 700,
           slidesToShow: AcordingToScreen('trailer'),
           slidesToScroll:  AcordingToScreen('trailer')
+      
         };
 
      const handleBookclick=()=>{
@@ -98,11 +104,11 @@ export function MovieDetails({movies})
    return(
 
         
-     // <React.Fragment>
-     // {/* <CssBaseline /> */}
-     // <Container >
-    
-         <div className="movieDetails-container">
+
+     <div>
+    {(selectedMovie[0])?  
+        <div className="movieDetails-container">
+        
           <div className='movie-card'> 
                <div className='movieDetail-poster'>
                     <img src={selectedMovie[0].poster} alt='movie-poster' />
@@ -121,10 +127,10 @@ export function MovieDetails({movies})
                     <p>{selectedMovie[0].summary}</p>
                </div>
 
-               <div className="movieTrailers-container">
+              <div className="movieTrailers-container">
                     <h3 className='section-heading'>Trailers and Clips : </h3>
                     <Slider  {...TrailerSettings}>
-                    {selectedMovie[0].trailerAndClips.map(({ link, title }) => (<MovieTrailerAndClips 
+                    {selectedMovie[0].trailer.map(({ link, title }) => (<MovieTrailerAndClips 
                     
                     link ={link}
                     title ={title}  
@@ -133,11 +139,11 @@ export function MovieDetails({movies})
                     ))}
                     </Slider>
                </div>
-
+               
                <div className="casts-container">
                     <h3 className='section-heading'>Casts : </h3>
                     <Slider  {...settings }>
-                    {selectedMovie[0].casts.map(({ ActorName ,InMovieName ,profilePic }) => (<MovieSubDetails  
+                    {selectedMovie[0].castData.map(({ ActorName ,InMovieName ,profilePic }) => (<MovieSubDetails  
                     
                     ActorName ={ActorName}
                     InMovieName ={InMovieName}
@@ -151,7 +157,8 @@ export function MovieDetails({movies})
                <div className="casts-container"> {/* same classname to imlement same design */}
                     <h3 className='section-heading'>Crew : </h3>
                     <Slider  {...settings}>
-                    {selectedMovie[0].crew.map(({ CrewName ,CrewContribution ,profilePic }) => (<MovieSubDetails  
+                   
+                    {selectedMovie[0].crewData.map(({ CrewName ,CrewContribution ,profilePic }) => (<MovieSubDetails  
                     
                     ActorName ={CrewName}
                     InMovieName ={CrewContribution}
@@ -159,25 +166,29 @@ export function MovieDetails({movies})
                
                     />
                     ))}
+                  
                     </Slider>
                </div>
 
                <div className="reviews-container"> {/* same classname to imlement same design */}
                     <h3 className='section-heading'>Top Reviews : </h3>
                     <Slider  {...TrailerSettings}>
-                    {selectedMovie[0].crew.map(() => (< MovieReviews />
+                    {selectedMovie[0].crewData.map(() => (< MovieReviews />
                     ))}
                     </Slider>
                </div>
+               
           </div>     
-        </div>);
-     {/* </Container>
-</React.Fragment> */}
+        </div>  : <div>Try Refreshing..</div>} </div>
+     );
+    
 
    
 
     
 }
+
+
 
 function MovieSubDetails({ ActorName ,InMovieName ,profilePic })
 {
@@ -223,3 +234,7 @@ function MovieReviews()
           </div>
      );
 }
+
+
+
+          

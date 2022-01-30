@@ -19,8 +19,13 @@ export function SelectingShow({movies})
     const { id } = useParams();
     const history =useHistory();
     
-    const selectedMovie = movies.filter( (mv) => mv.id===id );
 
+    const selectedMovie = movies.filter( (mv) => mv._id===id );
+    console.log("selMovie: ",selectedMovie);
+    let Genre =[];
+    if(selectedMovie[0]){
+     Genre =Object.keys(selectedMovie[0].genre).filter((g)=> selectedMovie[0].genre[g] );}
+    console.log("Genre: ",Genre);
     const handleShowBooking =()=>{
 
         console.log("Handling show booking");
@@ -39,9 +44,9 @@ export function SelectingShow({movies})
                 </div>
                 <div className="booking-movie-Subdetails">
                     <p>{selectedMovie[0].rating}</p>
-                    <p>UA</p>
-                    <p>2hr:39Mins</p>
-                    <p>Comedy / Thriller</p> 
+                    {/* <p>💖 {selectedMovie[0].RTomatoes}%</p> */}
+                    <p>{selectedMovie[0].mDuration.hr}hr:{selectedMovie[0].mDuration.min}Mins</p>
+                    <p>{Genre.map((g,ind)=> (ind<Genre.length-1)?`${g}/`:g)}</p> 
                 </div>
             </div>
             <div className="booking-movie-filter">
