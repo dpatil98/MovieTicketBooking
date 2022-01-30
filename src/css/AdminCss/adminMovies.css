@@ -31,3 +31,13 @@
 
 }
 
+.assignTheater-oneTheater
+{
+    margin: 10px 0;
+}
+
+.assignTheater-oneTheater > *
+{
+    margin: 20px 0;
+}
+

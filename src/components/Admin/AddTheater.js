@@ -146,7 +146,7 @@ export function AddTheater() {
 
               <TextField id="standard-basic" 
               label="Added Screens" 
-              value={theaterData[0].TotalScreen}     
+              value={theaterData[0].TotalScreens}     
               variant="standard"  
               sx={{ input:{ color: 'white'} }} 
               InputLabelProps={{style: { color: '#ddd' ,fontSize:'14px'} }} 

@@ -189,8 +189,8 @@ export function AddScreen(theaterData) {
         //     SectionInd:Section,
         //     Rows:RowsData
         // })
-        theaterData.theaterData[0]['TotalScreen']+=1;
-        let Snum=theaterData.theaterData[0]['TotalScreen'];
+        theaterData.theaterData[0]['TotalScreens']+=1;
+        let Snum=theaterData.theaterData[0]['TotalScreens'];
         theaterData.theaterData[0][`Screen${Snum}`]={
             MaxRows:rows,
             MaxNumberOfblock:MaxSpace,

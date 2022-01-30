@@ -16,6 +16,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import SaveIcon from '@mui/icons-material/Save';
 // import AdapterDateFns from '@mui/lab/AdapterDateFns';
 // import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
@@ -56,27 +57,39 @@ export function AddMovieBox() {
   //note:idea:shows wont show if screen alreay booked on this date by another movie
   // const [assignedTheatersData, SetAssignedTheatersData] = useState([{city:'pune',theatername:'Inox',screen:'Screen1',date:'11-09-2022',shows:{1:'11:40',2:'3:45',}},]);
   const [totalAssignedTheaters, SetTotalAssignedTheaters] = useState(1);
-  const [assignedTheatersData, SetAssignedTheatersData] = useState([{TotalShows:1, Shows:{} }]);
+  // const [assignedTheatersData, SetAssignedTheatersData] = useState([{TotalShows:1, Shows:{} }]);
+  const [assignedTheatersData, SetAssignedTheatersData] = useState([{TotalShows:1, Shows:[{},] }]);
 
   const [totalShows, SetTotalShows] = useState(1);
   // const [assignedTheatersData, SetAssignedTheatersData] = useState([{}]);
 
-  console.log("tailer: ",trailer);
-  console.log("Cast: ",castData);
-  console.log("Crew: ",crewData);
-  console.log("Lang",languages);
-  console.log("Genre",genre);
-  console.log("Format",format);
+  // console.log("tailer: ",trailer);
+  // console.log("Cast: ",castData);
+  // console.log("Crew: ",crewData);
+  // console.log("Lang",languages);
+  // console.log("Genre",genre);
+  // console.log("Format",format);
   console.log("All Theaters",allTheaters);
   console.log("Assigned Theater",assignedTheatersData);
 
 
-  const AddMovie = () => {
+  const handleSaveMovie = async () => {
 
 
-    const NewMovie = { trailer, name, poster, summary, rating };
+    const NewMovie = { trailer, name, poster, summary, rating,RTomatoes,mDuration,languages,genre,format,totalClips,totalCast,castData,totalCrew,crewData,totalAssignedTheaters ,assignedTheatersData };
     //key is not used while makin obj bcus both key and value name are same
     // console.log(NewMovie);
+
+    await  fetch(`${API_URL}/movies/AddMovie`,{
+      method : "POST",
+      body: JSON.stringify(NewMovie),
+      headers :{
+          'Content-Type' : 'application/json'
+      }
+  
+      })
+
+
     //     fetch("https://616d44bb37f997001745d948.mockapi.io/movies",{
     //     method : "POST",
     //     body: JSON.stringify(NewMovie),
@@ -91,7 +104,9 @@ export function AddMovieBox() {
   };
 
   React.useEffect(async ()=>{
-      console.log("Getting Theaters");
+      
+      // console.log("Getting Theaters");
+
       await fetch(`${API_URL}/theaters`,{
       method : "GET"  
       }).then((response) => response.json())
@@ -312,7 +327,14 @@ export function AddMovieBox() {
 
   const handleAssignedShows=(data,i,theaterIndex,key)=>{
     // console.log(data,i,key);
-    assignedTheatersData[theaterIndex].Shows[`${key}`]=data;
+
+    // assignedTheatersData[theaterIndex].Shows[`${key}`]=data;
+    let currTName= assignedTheatersData[theaterIndex].TheaterName;
+    let currScreen= assignedTheatersData[theaterIndex].ScreenNo;
+    let ScreenStruct = allTheaters.filter(t=>t.TheaterName=== currTName);
+    assignedTheatersData[theaterIndex].Shows[i-1][`${key}`]=data;
+    assignedTheatersData[theaterIndex].Shows[i-1]['ScreenStructure']=ScreenStruct[0][currScreen];
+    // console.log("AssigningShow",);
     SetReRender( !reRender);
   }
 
@@ -320,20 +342,30 @@ export function AddMovieBox() {
 
     SetTotalShows(totalShows+1);
     assignedTheatersData[theaterIndex].TotalShows+=1;
+    assignedTheatersData[theaterIndex].Shows.push({});
+    console.log("Adding show..",);
     // SetAssignedTheatersData([...assignedTheatersData[] ,{}  ])
 
   }
 
   const handleRemoveAssignedShows=(theaterIndex)=>{
 
+    //old code
+    // if(assignedTheatersData[theaterIndex].TotalShows>0)
+    // { 
+    //  const lastShow=`show${assignedTheatersData[theaterIndex].TotalShows}`;
+    //   delete assignedTheatersData[theaterIndex].Shows[lastShow];
+    //   assignedTheatersData[theaterIndex].TotalShows-=1;
+    //   // let keys = Object.keys(assignedTheatersData[theaterIndex].Shows)
+    //   // delete assignedTheatersData[theaterIndex].Shows[keys[keys.length-1]]
+      
+    //  SetReRender(!reRender);
+    // }
+
     if(assignedTheatersData[theaterIndex].TotalShows>0)
     { 
-     const lastShow=`show${assignedTheatersData[theaterIndex].TotalShows}`;
-      delete assignedTheatersData[theaterIndex].Shows[lastShow];
-      assignedTheatersData[theaterIndex].TotalShows-=1;
-      // let keys = Object.keys(assignedTheatersData[theaterIndex].Shows)
-      // delete assignedTheatersData[theaterIndex].Shows[keys[keys.length-1]]
-      
+      assignedTheatersData[theaterIndex].Shows.pop(); 
+      assignedTheatersData[theaterIndex].TotalShows-=1;    
      SetReRender(!reRender);
     }
   }
@@ -357,9 +389,9 @@ export function AddMovieBox() {
     const ScreensInTheater=(TName)=>{
 
       let SelctedTheater=allTheaters.filter( T => T.TheaterName===TName );
-      console.log("Selcted Theater",SelctedTheater[0].TotalScreen);
+    
       let MenuItems=[];
-      for(let i=1;i<=SelctedTheater[0].TotalScreen;i++)
+      for(let i=1;i<=SelctedTheater[0].TotalScreens;i++)
       {
         MenuItems.push(<MenuItem key={"scr"+i} value={`Screen${i}`} >Screen{i}</MenuItem>)
       }
@@ -374,9 +406,9 @@ export function AddMovieBox() {
       {
         shows.push(<TextField
           id="date"
-          label="Show"
+          label={`Show${i}`}
           type="time"
-          value={(assignedTheatersData[theaterIndex].Shows[`show${i}`])?assignedTheatersData[theaterIndex].Shows[`show${i}`]:""}
+          value={(assignedTheatersData[theaterIndex].Shows[i-1][`show${i}`])?assignedTheatersData[theaterIndex].Shows[i-1][`show${i}`]:""}
           // defaultValue="2017-05-24"
           onChange={(event) => {
             handleAssignedShows(event.target.value,i,theaterIndex,`show${i}`)
@@ -397,13 +429,13 @@ export function AddMovieBox() {
       let cities;
       const allcities= allTheaters.map((a) =>  a.City)
       cities = allcities.filter((v, i, a) => a.indexOf(v) === i);
-        console.log("cities",cities);
+        // console.log("cities",cities);
       
         for(let i=0;i<totalAssignedTheaters;i++)
         {
           Theaters.push( 
-          <div>  
-          <FormControl key={"CS"+i} sx={{ m: 1, minWidth: 120, color:'white' }}>
+          <div className='assignTheater-oneTheater'>  
+          <FormControl key={"CS"+i} sx={{  minWidth: 120, color:'white' }}>
 
             <InputLabel  id="demo-simple-select-helper-label">City </InputLabel>
             <Select
@@ -423,7 +455,7 @@ export function AddMovieBox() {
 
             {(assignedTheatersData[i]['City']) ?
             
-            <FormControl key={'TN'+i} sx={{ m: 1, minWidth: 120, color:'white' }}> 
+            <FormControl key={'TN'+i} sx={{ minWidth: 120, color:'white' }}> 
                 <InputLabel  id="demo-simple-select-helper-label">Theater Name </InputLabel>
                   <Select
                     labelId="demo-simple-select-helper-label"
@@ -445,8 +477,8 @@ export function AddMovieBox() {
 
              {(assignedTheatersData[i]['TheaterName']) ?
             
-            <FormControl key={'SN'+i} sx={{ m: 1, minWidth: 120, color:'white' }}> 
-                <InputLabel  id="demo-simple-select-helper-label">Theater Name </InputLabel>
+            <FormControl key={'SN'+i} sx={{ minWidth: 120, color:'white' }}> 
+                <InputLabel  id="demo-simple-select-helper-label">Screen</InputLabel>
                   <Select
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"
@@ -508,7 +540,7 @@ export function AddMovieBox() {
                 </div>
             </div>
              :null}
-
+            <hr/>
             </div>
             
           );
@@ -521,7 +553,7 @@ export function AddMovieBox() {
   const handleAddAssignedTheater=()=>{
 
     SetTotalAssignedTheaters(totalAssignedTheaters+1);
-    SetAssignedTheatersData([...assignedTheatersData ,{TotalShows:1, Shows:{}}  ])
+    SetAssignedTheatersData([...assignedTheatersData ,{TotalShows:1, Shows:[{},]}  ])
 
   }
 
@@ -558,7 +590,7 @@ export function AddMovieBox() {
               <Typography className='container-title' sx={{ letterSpacing: '1px', fontWeight: '300' }} variant="h4"><LocalMoviesTwoToneIcon /> Add Movie :</Typography>
           </div>
           <div>
-            <Button  variant="contained" startIcon={<AddCircleOutlineIcon />}>Save</Button>
+            <Button  variant="contained" startIcon={<SaveIcon />}>Save</Button>
           </div>
       </div>      
       
@@ -752,6 +784,7 @@ export function AddMovieBox() {
         <Button  variant="contained" onClick={()=>handleRemoveAssignedTheater()} color='warning' startIcon={<RemoveCircleTwoToneIcon />}>Remove Theater</Button>
       </div>
           
+      <Button  variant="contained" onClick={()=>handleSaveMovie()} color='success' startIcon={<SaveIcon/>}>Save</Button>
         </FormGroup>
       {/* <Button variant="outlined"
         onClick={//() => SetMovie([...movies,NewMovie]) 
