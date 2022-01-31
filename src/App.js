@@ -37,7 +37,8 @@ import SignUp from './components/user/signup.js';
 
 
 
- export const API_URL="http://localhost:9000";
+//  export const API_URL="http://localhost:9000";
+ export const API_URL="https://moviecounter-b28.herokuapp.com";
 
 
 function App() {
