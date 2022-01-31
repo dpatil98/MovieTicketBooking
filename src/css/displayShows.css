@@ -2,6 +2,9 @@
 .booking-movie-details{
 
     color: white;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10px;
 }
 
 .booking-movie-Subdetails{
@@ -28,9 +31,12 @@
 
 }
 
+
+
 /* one theater and show container*/
-.booking-theaterNshows{
+.booking-theaterNshows:nth-child(even){
     
+    background-color: rgb(39, 39, 39);
     /* min-height: 200px; */
     display: flex;
     /* justify-content: space-between; */
@@ -42,6 +48,20 @@
     
 }
 
+.booking-theaterNshows:nth-child(odd){
+    
+  background-color: rgb(53, 53, 53);
+    /* min-height: 200px; */
+    display: flex;
+    /* justify-content: space-between; */
+    /* flex-wrap: wrap; */
+    padding-left: 5%;
+
+    padding-top:50px;
+    padding-bottom: 50px;
+    
+    
+}
 
 /* theater name container*/
 .booking-theater{

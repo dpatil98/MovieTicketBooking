@@ -25,7 +25,11 @@ export function SelectingShow({movies})
     let Genre =[];
     if(selectedMovie[0]){
      Genre =Object.keys(selectedMovie[0].genre).filter((g)=> selectedMovie[0].genre[g] );}
-    console.log("Genre: ",Genre);
+    // console.log("Genre: ",Genre);
+
+    const SelectedTheaters=selectedMovie[0].assignedTheatersData.filter(t=>t.City==='Pune');
+    console.log("Theaters",SelectedTheaters);
+
     const handleShowBooking =()=>{
 
         console.log("Handling show booking");
@@ -35,59 +39,43 @@ export function SelectingShow({movies})
 
     }
 
+   
+
+    const handleHowManyTheaters=()=>{
+        
+  
+    }
+
     return(
 
         <div >
             <div className="booking-movie-details">
-                <div >
-                    <h2>{selectedMovie[0].name}</h2> 
+                <div>
+                    <div >
+                        <h2>{selectedMovie[0].name}</h2> 
+                    </div>
+                    <div className="booking-movie-Subdetails">
+                        <p>{selectedMovie[0].rating}</p>
+                        {/* <p>💖 {selectedMovie[0].RTomatoes}%</p> */}
+                        <p>{selectedMovie[0].mDuration.hr}hr:{selectedMovie[0].mDuration.min}Mins</p>
+                        <p>{Genre.map((g,ind)=> (ind<Genre.length-1)?`${g}/`:g)}</p> 
+                    </div>
                 </div>
-                <div className="booking-movie-Subdetails">
-                    <p>{selectedMovie[0].rating}</p>
-                    {/* <p>💖 {selectedMovie[0].RTomatoes}%</p> */}
-                    <p>{selectedMovie[0].mDuration.hr}hr:{selectedMovie[0].mDuration.min}Mins</p>
-                    <p>{Genre.map((g,ind)=> (ind<Genre.length-1)?`${g}/`:g)}</p> 
+                <div>
+                <h2>Pune</h2> 
                 </div>
             </div>
             <div className="booking-movie-filter">
                 <div >
-                    <h2>Filter goges here</h2> 
+                    <h2>Filter goes here</h2> 
                 </div>
                 
             </div>
 
             <div className='booking-shows-container'>
                 
-                <div className='booking-theaterNshows'>
-                    <div className='booking-theater'>
-                       <h3>PVR </h3> 
-                    </div>
-                    <div className='booking-shows'>
-                        <button>Show1</button>
-                        <button>Show2</button>
-                        <button>Show3</button>
-                        <button>Show4</button>
-                        <button>Show5</button>
-                        
-                    </div>
-                </div>
-<hr/>
-                <div className='booking-theaterNshows'>
-                    <div className='booking-theater'>
-                    <div className='theater-name'>
-                            <CameraOutdoorTwoToneIcon/> <h3>Bollywood Multiplex: Kharadi</h3> 
-                    </div>                   
-                    </div>
-                    <div className='booking-shows'> 
-                        <button>Show1</button>
-                        <button>Show2</button>
-                        <button>Show3</button>
-                        <button>Show4</button>
-                        <button>Show5</button>
-                        
-                    </div>
-                </div>
-<hr/>
+            {SelectedTheaters.map(({TheaterName,Shows})=> <HandleShows TheaterName={TheaterName} Shows={Shows}/>)}
+
                 <div className='booking-theaterNshows'>
                     <div className='booking-theater'>
                        <div className='theater-name'>
@@ -105,9 +93,7 @@ export function SelectingShow({movies})
                         </div>
                         <div>
                             <AccessibleTwoToneIcon style={{ fontSize: 18 }} titleAccess='Wheel Chair Facility' fontsize='inherit'/>
-                        </div>
-                            
-                            
+                        </div>                         
                            
                        </div>
                        
@@ -146,25 +132,87 @@ export function SelectingShow({movies})
                         
                     </div>
                 </div>
-<hr/>
-                <div className='booking-theaterNshows'>
-                    <div className='booking-theater'>
-                       <h3>City Pride: Mangala Cinema</h3> 
-                    </div>
-                    <div className='booking-shows'>
-                    
-                        <button>Show1</button>
-                        
-                    </div>
-                        
-                        
-                    
-                </div>
-<hr/>
+
+
             </div>
 
         </div>
 
     );
 
+}
+
+
+
+function HandleShows({ TheaterName,Shows})
+{
+
+    const history =useHistory();
+
+    const handleShowBooking =()=>{
+
+        console.log("Handling show booking");
+
+        // check if user logged in ot not
+        history.push('/bookingScreen')
+
+    }
+
+ 
+
+     return(
+    <div className='booking-theaterNshows'>
+        <div className='booking-theater'>
+            <div className='theater-name'>
+                <CameraOutdoorTwoToneIcon/> <h3>{TheaterName}</h3> 
+            </div> 
+            <div className='theater-availbl-facilities'>
+                        <div>
+                            <FastfoodTwoToneIcon  style={{ fontSize: 18 }}  titleAccess='Food & Beverages' />
+                        </div>
+                        <div>
+                            <BookOnlineTwoToneIcon style={{ fontSize: 18 }} titleAccess='M-Ticket' fontsize='inherit'/> 
+                        </div>
+                        <div>
+                            <DirectionsCarFilledTwoToneIcon style={{ fontSize: 18 }} titleAccess='Parking Available' fontsize='inherit'/> 
+                        </div>
+                        <div>
+                            <AccessibleTwoToneIcon style={{ fontSize: 18 }} titleAccess='Wheel Chair Facility' fontsize='inherit'/>
+                        </div>                         
+                           
+                       </div>                  
+        </div>
+        <div className='booking-shows'> 
+        {Shows.map((Sh,ind)=>
+            
+            //Show btn which indicated timing and sectionname and cost 
+            <Stack className='show-btn'>
+                                <Badge badgeContent={ 
+
+                                <div className='booking-show-info'>
+                                    <div className='tri'></div>
+                                   {/* {Sh.ScreenStructure.Rows.map(r=>
+                                   <div>
+                                        <h4>{r.Cost}</h4>
+                                        <p>{r.SectionName}</p>
+                                    </div>) }  */}
+
+                                    {/* filterting Screen rows to get cost and section name  */}
+                                    {Sh.ScreenStructure.Rows.map(ar=>ar).filter(sr=>sr.SectionName).map(r=> <div>
+                                        <h4>RS: {r.Cost}</h4>
+                                        <p>{r.SectionName}</p>
+                                    </div>) } 
+                                </div>
+                                                              
+                                } 
+                                >
+                                    <button onClick={()=>{handleShowBooking()}}>{Sh[`show${ind+1}`]}</button>       
+                                </Badge> 
+            </Stack>
+
+            )}        
+        </div>
+        
+    </div>
+     );
 }

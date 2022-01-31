@@ -39,6 +39,9 @@ export function MovieDetails({movies})
      const selectedMovie = movies.filter( (mv) => mv._id===id );
 
       console.log("selected movie",  selectedMovie );  
+      let Genre =[];
+      Genre =Object.keys(selectedMovie[0].genre).filter((g)=> selectedMovie[0].genre[g] );
+
      const AcordingToScreen = (which) =>{
 
           
@@ -115,7 +118,7 @@ export function MovieDetails({movies})
                </div>
                <div className='movieDetail-details'>
                     <h5>{selectedMovie[0].name}</h5>
-                    <p>Comady / Horror </p>
+                    <p>{ Genre.map((g,ind)=> (ind<Genre.length-1)?`${g}/`:g) }</p>
                     <p>R-Rated</p>
                     <p>{selectedMovie[0].rating}</p>
                     <button onClick={()=> handleBookclick() } className='book-btn'><LocalActivityIcon fontSize='inherit' /> Book Now</button>
