@@ -32,14 +32,16 @@ export function Allmovies({movies})
             {(DeviceWidth>=769)? <FilterForPC /> :<FilterForMobiles/>} 
             
             <div className="allmovies-container" >
-                {movies.map(({ trailer, poster, name, rating, summary, id }) => (<MovieBox  
+                {movies.map(({ trailer, poster, name, rating, summary, _id,RTomatoes,genre }) => (<MovieBox  
                   
                   trailer={trailer}
                   poster={poster}
                   name={name}
                   rating={rating}
                   summary={summary} 
-                  id={id}
+                  id={_id}
+                  genre={genre}
+                  RTomatoes={ RTomatoes}
                   />
                 ))} 
             </div>
